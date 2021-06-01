@@ -1,0 +1,26 @@
+{
+  "name": "Faceit-API-Wrapper",
+  "version": "1.0.0",
+  "description": "Wrapper for the Faceit API. Currently supporting CS:GO",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C0RR1T/Faceit-API-Wrapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C0RR1T/Faceit-API-Wrapper/issues"
+  },
+  "homepage": "https://github.com/C0RR1T/Faceit-API-Wrapper#readme",
+  "devDependencies": {
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0"
+  }
+}
