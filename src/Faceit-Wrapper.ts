@@ -7,7 +7,7 @@ export default class FaceitInstance {
     private static INSTANCE: FaceitInstance;
     private readonly _token: string;
     private readonly _axiosInstance: AxiosInstance;
-    private _axiosInstanceV1: AxiosInstance;
+    private readonly _axiosInstanceV1: AxiosInstance;
     private _playerService: PlayerService;
     private _matchService: MatchService;
 
