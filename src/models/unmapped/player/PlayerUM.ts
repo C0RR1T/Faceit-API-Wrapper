@@ -3,10 +3,10 @@ export default interface PlayerUM {
     "nickname": string,
     "avatar": string,
     "country": string,
-    "cover_image": "",
-    "cover_featured_image": "",
+    "cover_image": string,
+    "cover_featured_image": string,
     "infractions": {
-        "last_infraction_date": "",
+        "last_infraction_date": string,
         "afk": number,
         "leaver": number,
         "qm_not_checkedin": number,

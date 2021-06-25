@@ -1,9 +1,11 @@
 import {AxiosInstance} from "axios";
 import PlayerStats from "../models/mapped/player/PlayerStats";
 import mapPlayerStats from '../mapper/PlayerStatsMapper'
+import PlayerUM from "../models/unmapped/player/PlayerUM";
+import PlayerStatsUM from "../models/unmapped/player/PlayerStatsUM";
 
 
-export default class MatchService {
+export default class PlayerService {
     private _axiosInstance: AxiosInstance;
     private _users: { [userName: string]: string };
 
@@ -14,16 +16,27 @@ export default class MatchService {
 
     public getPlayerStats = async (username: string): Promise<PlayerStats> => {
         if (!this._users[username]) {
-           await this.newUser(username);
+            this.newUser(username);
         }
-        const playerStats = await this._axiosInstance.get(`players/${this._users[username]}/stats/csgo`);
+        const playerStats = await this._axiosInstance.get<PlayerStatsUM>(`players/${this._users[username]}/stats/csgo`);
         return mapPlayerStats(playerStats.data);
     }
 
-    public async newUser(username: string): Promise<void> {
-         return this._axiosInstance.get(`players?nickname=${username}`).then(r => {
-            this._users = {...this._users, [username]: r.data.player_id}
+    public newUser(username: string) {
+        this.getUserID(username).then(id => {
+            this._users = {
+                ...this._users,
+                [username]: id
+            }
         })
     }
 
+    public getUserID = async (username: string): Promise<string> => {
+        if (this._users[username])
+            return this._users[username]
+        const response = await this._axiosInstance.get<PlayerUM>(`players?nickname=${username}`)
+        return response.data.player_id;
+    }
+
 }
+

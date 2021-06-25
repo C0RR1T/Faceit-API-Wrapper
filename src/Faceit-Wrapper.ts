@@ -1,10 +1,15 @@
 import axios, {AxiosInstance} from 'axios';
+import PlayerService from "./api/PlayerService";
+import MatchService from "./api/MatchService";
+import PlayerStats from "./models/mapped/player/PlayerStats";
 
 export default class FaceitInstance {
-    private _token: string;
-    private _axiosInstance: AxiosInstance;
+    private readonly _token: string;
+    private readonly _axiosInstance: AxiosInstance;
     private _axiosInstanceV1: AxiosInstance;
     private static INSTANCE: FaceitInstance;
+    private _playerService: PlayerService;
+    private _matchService: MatchService;
 
     private constructor(token: string) {
         this._token = token;
@@ -17,6 +22,12 @@ export default class FaceitInstance {
         this._axiosInstanceV1 = axios.create({
             baseURL: 'https://api.faceit.com/stats/api/v1'
         })
+        this._playerService = new PlayerService(this._axiosInstance);
+        this._matchService = new MatchService();
+    }
+
+    public getPlayerStats = (username: string): Promise<PlayerStats> => {
+        return this._playerService.getPlayerStats(username);
     }
 
     public create = (token: string): FaceitInstance => {

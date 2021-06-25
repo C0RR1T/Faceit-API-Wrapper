@@ -1,4 +1,4 @@
-import PlayerStatsUM, {Segment as SegmentUM} from "../models/unmapped/PlayerStatsUM";
+import PlayerStatsUM, {Segment as SegmentUM} from "../models/unmapped/player/PlayerStatsUM";
 import PlayerStats, {Segment} from "../models/mapped/player/PlayerStats";
 
 
