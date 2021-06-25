@@ -16,9 +16,8 @@ class PlayerService {
         this.getUserID = async (username) => {
             if (this._users[username])
                 return this._users[username];
-            return this._axiosInstance.get(`players?nickname=${username}`).then((r) => {
-                return r.data.player_id;
-            });
+            const response = await this._axiosInstance.get(`players?nickname=${username}`);
+            return response.data.player_id;
         };
         this._axiosInstance = axiosInstance;
         this._users = {};

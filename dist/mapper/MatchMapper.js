@@ -1,13 +1,12 @@
-import MatchesUM, {Team as TeamUM, MatchUM} from "../models/unmapped/match/v4/MatchesUM";
-import Match, {Team} from "../models/mapped/match/Match";
-import MatchUMV1 from "../models/unmapped/match/v1/MatchUM";
-
-const mapMatches = (um: MatchesUM, v1: Array<MatchUMV1>): Array<Match> => {
-    const elo: {[matchId: string]: number} = mapV1(v1);
-    return um.items.map((val) => mapMatch(val, elo))
-}
-
-const mapMatch = (val: MatchUM, elo: {[matchId: string]: number}): Match => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mapMatches = exports.mapMatch = void 0;
+const mapMatches = (um, v1) => {
+    const elo = mapV1(v1);
+    return um.items.map((val) => mapMatch(val, elo));
+};
+exports.mapMatches = mapMatches;
+const mapMatch = (val, elo) => {
     return {
         "matchID": val.match_id,
         "gameID": val.game_id,
@@ -37,11 +36,10 @@ const mapMatch = (val: MatchUM, elo: {[matchId: string]: number}): Match => {
         },
         "faceit_url": val.faceit_url.replace('{lang}', 'en'),
         "elo": elo[val.match_id]
-    }
-}
-
-
-const mapTeams = (um: TeamUM): Team => {
+    };
+};
+exports.mapMatch = mapMatch;
+const mapTeams = (um) => {
     return {
         "teamID": um.team_id,
         "nickname": um.nickname,
@@ -56,20 +54,17 @@ const mapTeams = (um: TeamUM): Team => {
                 "gamePlayerID": p.game_player_id,
                 "gamePlayerName": p.game_player_name,
                 "faceitURL": p.faceit_url.replace('{lang}', 'en')
-            }
+            };
         })
-    }
-}
-
-const mapV1 = (um: Array<MatchUMV1>): {[matchId: string]: number} => {
-    let elo: {[matchId: string]: number} = {};
+    };
+};
+const mapV1 = (um) => {
+    let elo = {};
     um.forEach((val) => {
         elo = {
             ...elo,
             [val._id.matchId]: parseInt(val.elo || '0')
-        }
-    })
+        };
+    });
     return elo;
-}
-
-export {mapMatch, mapMatches};
+};

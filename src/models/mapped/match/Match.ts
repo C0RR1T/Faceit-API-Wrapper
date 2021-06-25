@@ -1,8 +1,4 @@
-export default interface Matches {
-    items: Array<Match>
-}
-
-interface Match {
+export default interface Match {
     "matchID": string,
     "gameID": string,
     "region": string,
@@ -14,7 +10,7 @@ interface Match {
         "faction2": Team,
         "faction1": Team
     },
-    "playingPlayer": Array<String>,
+    "playingPlayers": Array<String>,
     "competitionID": string,
     "competitionName": string,
     "competitionType": string,
@@ -30,11 +26,7 @@ interface Match {
         }
     },
     "faceit_url": string,
-    "start": number,
-    "end": number,
-    "from": Date,
-    "to": Date,
-    "eloDiff"?: number
+    "elo": number
 }
 
 interface Team {
@@ -52,3 +44,5 @@ interface Team {
         "faceitURL": string
     }>
 }
+
+export {Team}

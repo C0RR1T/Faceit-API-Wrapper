@@ -1,6 +1,8 @@
 import {AxiosInstance} from "axios";
-import Matches from "../models/mapped/match/Matches";
+import Match from "../models/mapped/match/Match";
 import MatchesUM from "../models/unmapped/match/v4/MatchesUM";
+import {mapMatches, mapMatch} from "../mapper/MatchMapper";
+import MatchUM from "../models/unmapped/match/v1/MatchUM";
 
 export default class MatchService {
     private readonly _axiosInstanceV1: AxiosInstance;
@@ -12,8 +14,11 @@ export default class MatchService {
         this._axiosInstanceV4 = v4;
     }
 
-    public getMatches = async (limit: number = 20, userid: string): Promise<Array<Matches>> => {
-        const response = await this._axiosInstanceV4.get<MatchesUM>(`https://open.faceit.com/data/v4/players/${userid}/history?game=csgo&limit=${limit}`)
+    public getMatchOfUser = async (userid: string, limit?: number, offset?: number, from?: number): Promise<Array<Match>> => {
+        const request = this._axiosInstanceV4.get<MatchesUM>(this.getQueryString(userid, limit, from, offset))
+        const requestV1 = this._axiosInstanceV1.get<Array<MatchUM>>(`https://api.faceit.com/stats/api/v1/stats/time/users/${userid}/games/csgo`)
+        const [response, responsev1] = await Promise.all([request, requestV1]);
+        return mapMatches(response.data, responsev1.data)
     }
 
     public getHistory = async (userid: string, limit: number = 20): Promise<Array<string>> => {
@@ -21,13 +26,27 @@ export default class MatchService {
         return response.data.items.map(val => val.match_id)
     }
 
-    public getMatchesToday = async (limit: number = 20, userid: string): Promise<Matches> => {
-        let response = await this._axiosInstanceV4.get<MatchesUM>(`https://open.faceit.com/data/v4/players/${userid}/history?game=csgo&limit=${limit}`);
+    public getMatchesToday = async (userid: string): Promise<Array<Match>> => {
+        return await this.getMatchOfUser(userid, undefined, this.getTodayZeroOClock())
+    }
+
+    public getEloFromToday = async (userid: string): Promise<number> => {
+        const matchesToday = await this.getMatchesToday(userid);
+        return matchesToday[matchesToday.length].elo - matchesToday[0].elo
+    }
+
+    private getTodayZeroOClock = (): number => {
         const now = new Date();
-        const matchesToday = response.data.items.filter(val => {
-            const matchDate = new Date(val.to);
-            return (matchDate.getDate() === now.getDate()) && (matchDate.getMonth() === now.getMonth()) && (matchDate.getFullYear() === now.getFullYear())
-        })
+        now.setHours(0, 0, 0);
+        return now.getTime()
+    }
+
+    private getStatsOfMatch = async () => {
+
+    }
+
+    private getQueryString = (userid: string, limit: number = 20, from?: number, offset ?: number): string => {
+        return `https://open.faceit.com/data/v4/players/${userid}/history?game=csgo` + (limit && `&limit=${limit}`) + (from && `&from=${from}`) + (offset && `&offset=${offset}`)
     }
 
 

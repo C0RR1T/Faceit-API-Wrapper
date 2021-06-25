@@ -1,8 +1,12 @@
 export default interface MatchesUM {
-    items: Array<Match>
+    items: Array<MatchUM>,
+    "start": number,
+    "end": number,
+    "from": number,
+    "to": number
 }
 
-interface Match {
+interface MatchUM {
     "match_id": string,
     "game_id": string,
     "region": string,
@@ -30,10 +34,6 @@ interface Match {
         }
     },
     "faceit_url": string,
-    "start": number,
-    "end": number,
-    "from": number,
-    "to": number
 }
 
 interface Team {
@@ -51,3 +51,5 @@ interface Team {
         "faceit_url": string
     }>
 }
+
+export {Team, MatchUM}

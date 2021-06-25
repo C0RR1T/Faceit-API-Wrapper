@@ -23,7 +23,7 @@ export default class FaceitInstance {
             baseURL: 'https://api.faceit.com/stats/api/v1'
         })
         this._playerService = new PlayerService(this._axiosInstance);
-        this._matchService = new MatchService();
+        this._matchService = new MatchService(this._axiosInstanceV1, this._axiosInstance);
     }
 
     public getPlayerStats = (username: string): Promise<PlayerStats> => {

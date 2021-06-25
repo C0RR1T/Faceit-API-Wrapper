@@ -7,6 +7,8 @@
     "node_modules"
   ],
   "compilerOptions": {
+    "declaration": true,
+    "outDir": "./dist",
     "noImplicitAny": true,
     "target": "ES2020"
   }

@@ -27,7 +27,7 @@ class FaceitInstance {
             baseURL: 'https://api.faceit.com/stats/api/v1'
         });
         this._playerService = new PlayerService_1.default(this._axiosInstance);
-        this._matchService = new MatchService_1.default();
+        this._matchService = new MatchService_1.default(this._axiosInstanceV1, this._axiosInstance);
     }
 }
 exports.default = FaceitInstance;
