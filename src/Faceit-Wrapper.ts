@@ -4,10 +4,10 @@ import MatchService from "./api/MatchService";
 import PlayerStats from "./models/mapped/player/PlayerStats";
 
 export default class FaceitInstance {
+    private static INSTANCE: FaceitInstance;
     private readonly _token: string;
     private readonly _axiosInstance: AxiosInstance;
     private _axiosInstanceV1: AxiosInstance;
-    private static INSTANCE: FaceitInstance;
     private _playerService: PlayerService;
     private _matchService: MatchService;
 

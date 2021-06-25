@@ -34,7 +34,7 @@ interface Match {
     "end": number,
     "from": Date,
     "to": Date,
-    "eloDiff" ?: number
+    "eloDiff"?: number
 }
 
 interface Team {
