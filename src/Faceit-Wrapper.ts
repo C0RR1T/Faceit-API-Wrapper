@@ -30,11 +30,13 @@ export default class FaceitInstance {
         return this._playerService.getPlayerStats(username);
     }
 
-    public create = (token: string): FaceitInstance => {
-        if (FaceitInstance.INSTANCE)
+    public static create = (token: string): FaceitInstance => {
+        if (!FaceitInstance.INSTANCE)
             FaceitInstance.INSTANCE = new FaceitInstance(token)
         return FaceitInstance.INSTANCE;
     }
+
+
 }
 
 export {MatchService, PlayerService, PlayerStats}
