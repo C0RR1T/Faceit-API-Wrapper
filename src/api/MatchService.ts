@@ -1,8 +1,11 @@
 import {AxiosInstance} from "axios";
 import Match from "../models/mapped/match/Match";
 import MatchesUM from "../models/unmapped/match/v4/MatchesUM";
-import {mapMatches, mapMatch} from "../mapper/MatchMapper";
+import {mapMatches} from "../mapper/MatchMapper";
 import MatchUM from "../models/unmapped/match/v1/MatchUM";
+import MatchStatsUM from "../models/unmapped/match/v4/MatchStatsUM";
+import Round from "../models/mapped/match/MatchStats";
+import mapStatsOfMatch from "../mapper/MatchStatsMapper";
 
 export default class MatchService {
     private readonly _axiosInstanceV1: AxiosInstance;
@@ -41,8 +44,8 @@ export default class MatchService {
         return now.getTime()
     }
 
-    private getStatsOfMatch = async () => {
-
+    private getStatsOfMatch = async (matchID: string): Promise<Array<Round>> => {
+       return this._axiosInstanceV4.get<MatchStatsUM>(`https://open.faceit.com/data/v4/matches/${matchID}/stats`).then(r => r.data).then(r => mapStatsOfMatch(r));
     }
 
     private getQueryString = (userid: string, limit: number = 20, from?: number, offset ?: number): string => {

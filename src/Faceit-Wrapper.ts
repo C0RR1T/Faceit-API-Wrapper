@@ -36,3 +36,5 @@ export default class FaceitInstance {
         return FaceitInstance.INSTANCE;
     }
 }
+
+export {MatchService, PlayerService, PlayerStats}

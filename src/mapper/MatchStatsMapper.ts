@@ -64,3 +64,5 @@ const mapPlayer = (um: PlayerUM): Player => {
         }
     }
 }
+
+export default mapStatsOfMatch;
